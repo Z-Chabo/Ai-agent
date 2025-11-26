@@ -23,7 +23,6 @@ class Message(BaseModel):
 class QueryRequest(BaseModel):
    query:str
    history:List[Message]=[]
-
 @app.post("/aiAgent")
 async def query_agent(request: QueryRequest):
    history_msgs:List[BaseMessage]=[]
@@ -37,4 +36,9 @@ async def query_agent(request: QueryRequest):
 
    response=run_agent(request.query, history_msgs)
 
-   return {"response":response.content}
+   return {"response":response}
+
+if __name__ == "__main__":
+    # This block is for local development only.
+    # It will not run on Vercel.
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
