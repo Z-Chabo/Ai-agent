@@ -23,6 +23,11 @@ class Message(BaseModel):
 class QueryRequest(BaseModel):
    query:str
    history:List[Message]=[]
+
+@app.get("/")
+def read_root():
+    return {"status": "ok", "message": "Z-Bot AI Agent is running"}
+
 @app.post("/aiAgent")
 async def query_agent(request: QueryRequest):
    history_msgs:List[BaseMessage]=[]
