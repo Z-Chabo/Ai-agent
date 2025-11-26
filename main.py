@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from agentrunner.agentRun import run_agent
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
@@ -30,6 +29,9 @@ def read_root():
 
 @app.post("/aiAgent")
 async def query_agent(request: QueryRequest):
+   # Local import: Import the agent runner only when this function is called.
+   # This prevents crashes on startup if environment variables are slow to load.
+   from agentrunner.agentRun import run_agent
    history_msgs:List[BaseMessage]=[]
 
    if request.history:
