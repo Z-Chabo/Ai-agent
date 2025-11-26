@@ -1,0 +1,39 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Lock files (Azure doesn't need them)
+uv.lock
+poetry.lock
+Pipfile.lock
+
+# Build / dist
+build/
+dist/
+*.egg-info/
+
+# OS junk
+.DS_Store
+
+# Editor configs
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Test cache
+.pytest_cache/
+.cache/
+
+# MyPy / Pyright / Ruff
+.mypy_cache/
+.pyright/
+.ruff_cache/

@@ -1,0 +1,18 @@
+# file that has the packages that azure needs to install to run my ai agent
+
+gunicorn
+uvicorn
+
+langchain
+langchain-chroma
+langchain-google-genai
+sentence-transformers
+
+numpy
+packaging
+pyparsing
+python-dateutil
+six
+PyYAML
+
+

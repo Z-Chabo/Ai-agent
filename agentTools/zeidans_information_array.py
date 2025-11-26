@@ -1,0 +1,2 @@
+from typing import List
+zeidans_info:List[str]=["Zeidan is a software engineer","Zeidan studies at concordia", "Zeidan is 24 years old", "Zeidan is a very friendly person", "Zeidan's email is zeidanchabo@gmail.com", "I can't provide zeidan's phone number please contact him by email","zeidan is from syria"]
