@@ -1,2 +1,0 @@
-from get_zeidans_info import get_zeidans_info
-Tools=[get_zeidans_info]
