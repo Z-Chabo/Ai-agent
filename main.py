@@ -5,7 +5,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 from langchain_core.messages import AIMessage, HumanMessage, BaseMessage
 
-origins = ["https://portfolio1-b7j.pages.dev", "http://localhost:5173", "https://z-bot-by-zeidan-2025-gzdxd8a9cjbmhjdj.canadacentral-01.azurewebsites.net"]
+origins = ["https://portfolio1-b7j.pages.dev", "https://ai-agent-947y5bej1-z-chabos-projects.vercel.app/"]
 
 app = FastAPI()
 
