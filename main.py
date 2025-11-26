@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from agentrunner.agentRun import run_agent
 import uuid
-#import uvicorn
+import uvicorn
 # we need Cross Origin Ressource Sharing middleware to allow frontend to communicate with backend otherwise backend will block communication because both come fron different origins
 #in general a middleware is defined as processes that need to happen before the api call from frontend reaches the end point 
 #lol hisadha 
