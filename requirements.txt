@@ -3,8 +3,7 @@
 #gunicorn
 #uvicorn
 fastapi
-langchain
-langchain-chroma
+langchain 
 langchain-google-genai
 
 numpy
