@@ -25,20 +25,17 @@ Be friendly and helpful.
 """)
 
 
-def get_agent():
-    """Creates and returns the LangGraph agent."""
-    model = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite")
-    agent = create_agent(
-        model=model,
-        system_prompt=SYSTEM_PROMPT,
-        tools=[get_zeidans_information],
-        checkpointer=checkpointer
-    )
-    return agent
+# Create the agent once and reuse it
+model = ChatGoogleGenerativeAI(model="gemini-2.5-flash-latest")
+agent = create_agent(
+    model=model,
+    system_prompt=SYSTEM_PROMPT,
+    tools=[get_zeidans_information],
+    checkpointer=checkpointer
+)
 
 def run_agent(query: str, history: List[AnyMessage]):
     """Invokes the agent with a query and conversation history."""
-    agent = get_agent()
     config = {"configurable": {"thread_id": "main_thread"}}
     # The agent returns a list of messages. We are interested in the last one.
     response = agent.invoke({"messages": history + [("user", query)]}, config=config)
