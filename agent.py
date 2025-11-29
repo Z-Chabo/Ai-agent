@@ -1,6 +1,6 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.messages import SystemMessage, BaseMessage
-from langgraph.agents import create_agent
+from langchain.agents import create_agent
 from langchain.tools import tool
 from langgraph.checkpoint.memory import InMemorySaver
 from typing import List
@@ -23,6 +23,7 @@ Your only source of information about Zeidan is what you get from the `get_zeida
 You must use this tool to answer any questions about Zeidan.
 Be friendly and helpful.
 """)
+
 
 def get_agent():
     """Creates and returns the LangGraph agent."""

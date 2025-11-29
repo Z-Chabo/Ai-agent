@@ -3,7 +3,7 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 from pydantic import BaseModel
-from langchain_core.messages import AIMessage, HumanMessage, BaseMessage
+from langchain.messages import AIMessage, HumanMessage, BaseMessage
 from agent import run_agent
 
 
