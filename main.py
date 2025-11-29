@@ -31,8 +31,6 @@ def read_root():
 
 @app.post("/aiAgent")
 async def query_agent(request: QueryRequest):
-   # Local import: Import the agent runner only when this function is called.
-   # This prevents crashes on startup if environment variables are slow to load.
    history_msgs:List[BaseMessage]=[]
 
    if request.history:
