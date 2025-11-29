@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 from pydantic import BaseModel
 from langchain_core.messages import AIMessage, HumanMessage, BaseMessage
+from agent import run_agent
+
 
 origins = ["https://portfolio1-b7j.pages.dev", "https://ai-agent-947y5bej1-z-chabos-projects.vercel.app/","https://ai-agent-fawn-nu.vercel.app/"]
 
@@ -31,7 +33,6 @@ def read_root():
 async def query_agent(request: QueryRequest):
    # Local import: Import the agent runner only when this function is called.
    # This prevents crashes on startup if environment variables are slow to load.
-   from agentrunner.agentRun import run_agent
    history_msgs:List[BaseMessage]=[]
 
    if request.history:

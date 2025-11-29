@@ -1,42 +1,41 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.agents import AgentExecutor, create_react_agent
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.messages import SystemMessage, BaseMessage
+from langgraph.agents import create_agent
+from langchain.tools import tool
+from langgraph.checkpoint.memory import InMemorySaver
+from typing import List
 
-# Initialize the Gemini model.
-# The model name "gemini-pro" is a good balance of cost and capability.
-# `convert_system_message_to_human=True` helps ensure compatibility with some agent types.
-llm = ChatGoogleGenerativeAI(model="gemini-pro", convert_system_message_to_human=True)
+zeidans_information="""Zeidan is 24 years right he is going to be 25 in 2026 . He loves playing chess as a hobby. He is extremly friendly and loves to help people around him
+He is a canadian citizen of syrian heritage. He can speak English, Arabic,Aramaic and French. He is studying software engineering at concordia. He is going to enter his third year.
+of software engineering studying
+""" 
 
-# This is the core prompt that defines your agent's persona and knowledge.
-# --- IMPORTANT ---
-# Replace the placeholder information below with your own details.
-# Be as descriptive as you want. The more detail you provide, the better the agent can answer questions.
-system_prompt = """
-You are a helpful AI assistant named Z-Bot, created by a talented developer named Zeidan.
-Your purpose is to answer questions about Zeidan.
+checkpointer = InMemorySaver()
 
-Here is some information about Zeidan:
-- He is a passionate software developer with expertise in Python, JavaScript, and cloud technologies like Azure and Vercel.
-- He created you, Z-Bot, to act as his digital representative on his portfolio.
-- He is always learning new things and is currently focused on AI and machine learning.
-- He is open to new job opportunities and collaborations. His contact information can be provided upon request for serious inquiries.
-
-When answering, be friendly, professional, and conversational.
-If you don't know the answer to a question, say that you don't have that information but can ask Zeidan.
-"""
+@tool
+def get_zeidans_information()->str:
+    """Use this tool to get information about Zeidan. This is your primary source of knowledge."""
+    return f"{zeidans_information}"
 
 # Create the prompt template for the agent
-prompt = ChatPromptTemplate.from_messages(
-    [
-        ("system", system_prompt),
-        MessagesPlaceholder(variable_name="chat_history"),
-        ("human", "{input}"),
-        MessagesPlaceholder(variable_name="agent_scratchpad"),
-    ]
+SYSTEM_PROMPT = SystemMessage("""You are a personal assistant for a person named Zeidan. Your name is Z-Bot.
+Your only source of information about Zeidan is what you get from the `get_zeidans_information` tool.
+You must use this tool to answer any questions about Zeidan.
+Be friendly and helpful.
+""")
+
+model = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite")
+
+agent = create_agent(
+    model=model,
+    system_prompt=SYSTEM_PROMPT,
+    tools=[get_zeidans_information],
+    checkpointer=checkpointer
 )
 
-# Create the agent itself. We pass an empty list for tools because it's a Q&A agent for now.
-agent = create_react_agent(llm, [], prompt)
-
-# The AgentExecutor is what runs the agent and returns the final response.
-agent_executor = AgentExecutor(agent=agent, tools=[], verbose=True, handle_parsing_errors=True)
+def run_agent(query: str, history: List[BaseMessage]):
+    """Invokes the agent with a query and conversation history."""
+    config = {"configurable": {"thread_id": "main_thread"}}
+    # The agent returns a list of messages. We are interested in the last one.
+    response = agent.invoke({"messages": history + [("user", query)]}, config=config)
+    return response['messages'][-1].content
