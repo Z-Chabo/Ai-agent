@@ -24,6 +24,7 @@ You must use this tool to answer any questions about Zeidan.
 Be friendly and helpful.
 """)
 
+checkpointer=InMemorySaver()
 
 def get_agent():
     """Creates and returns the LangGraph agent."""
