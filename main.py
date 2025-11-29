@@ -5,6 +5,8 @@ from typing import List, Optional
 from pydantic import BaseModel
 from langchain.messages import HumanMessage, AIMessage,AnyMessage
 from agent import run_agent
+from agent import get_agent
+
 
 
 origins = ['https://portfolio1-b7j.pages.dev','https://portfolio1-b7j.pages.dev/']
@@ -27,7 +29,9 @@ class QueryRequest(BaseModel):
 
 @app.get("/")
 def read_root():
+    get_agent()
     return {"status": "ok", "message": "Z-Bot AI Agent is running"}
+
 
 @app.post("/aiAgent")
 async def query_agent(request: QueryRequest):

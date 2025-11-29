@@ -37,12 +37,8 @@ def get_agent():
     )
     return agent
 
-agent=None
 def run_agent(query: str, history: List[AnyMessage]):
     """Invokes the agent with a query and conversation history."""
-    if(agent==None):
-        agent = get_agent()
-
     config = {"configurable": {"thread_id": "main_thread"}}
     # The agent returns a list of messages. We are interested in the last one.
     response = agent.invoke({"messages": history + [("user", query)]}, config=config)
