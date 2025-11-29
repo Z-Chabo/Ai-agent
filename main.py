@@ -7,7 +7,7 @@ from langchain.messages import HumanMessage, AIMessage,AnyMessage
 from agent import run_agent
 
 
-origins = ["https://portfolio1-b7j.pages.dev"]
+origins = ["https://portfolio1-b7j.pages.dev","https://portfolio1-b7j.pages.dev/"]
 
 app = FastAPI()
 
