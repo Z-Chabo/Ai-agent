@@ -1,5 +1,5 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.messages import SystemMessage, BaseMessage
+from langchain.messages import SystemMessage, AnyMessage
 from langchain.agents import create_agent
 from langchain.tools import tool
 from langgraph.checkpoint.memory import InMemorySaver
@@ -36,7 +36,7 @@ def get_agent():
     )
     return agent
 
-def run_agent(query: str, history: List[BaseMessage]):
+def run_agent(query: str, history: List[AnyMessage]):
     """Invokes the agent with a query and conversation history."""
     agent = get_agent()
     config = {"configurable": {"thread_id": "main_thread"}}

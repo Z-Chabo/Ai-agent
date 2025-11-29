@@ -3,7 +3,7 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 from pydantic import BaseModel
-from langchain.messages import AIMessage, HumanMessage, BaseMessage
+from langchain.messages import HumanMessage, AIMessage,AnyMessage
 from agent import run_agent
 
 
@@ -31,7 +31,7 @@ def read_root():
 
 @app.post("/aiAgent")
 async def query_agent(request: QueryRequest):
-   history_msgs:List[BaseMessage]=[]
+   history_msgs:List[AnyMessage]=[]
 
    if request.history:
       for msg in request.history:
