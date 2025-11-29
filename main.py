@@ -7,7 +7,7 @@ from langchain.messages import HumanMessage, AIMessage,AnyMessage
 from agent import run_agent
 
 
-origins = ["https://portfolio1-b7j.pages.dev", "https://ai-agent-947y5bej1-z-chabos-projects.vercel.app/","https://ai-agent-fawn-nu.vercel.app/"]
+origins = ["https://portfolio1-b7j.pages.dev"]
 
 app = FastAPI()
 
