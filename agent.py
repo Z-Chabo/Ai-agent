@@ -9,7 +9,7 @@ zeidans_information="""Zeidan is 24 years right he is going to be 25 in 2026 . H
 He is a canadian citizen of syrian heritage. He can speak English, Arabic,Aramaic and French. He is studying software engineering at concordia. He is going to enter his third year.
 of software engineering studying
 """ 
-
+agent=None
 checkpointer = InMemorySaver()
 
 @tool
@@ -26,16 +26,16 @@ Be friendly and helpful.
 
 checkpointer=InMemorySaver()
 
-def get_agent():
-    """Creates and returns the LangGraph agent."""
+
+def getagent():
+    global agent
     model = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite")
     agent = create_agent(
         model=model,
         system_prompt=SYSTEM_PROMPT,
         tools=[get_zeidans_information],
-        checkpointer=checkpointer
-    )
-    return agent
+        checkpointer=checkpointer)
+    
 
 def run_agent(query: str, history: List[AnyMessage]):
     """Invokes the agent with a query and conversation history."""

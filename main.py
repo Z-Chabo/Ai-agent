@@ -5,7 +5,9 @@ from typing import List, Optional
 from pydantic import BaseModel
 from langchain.messages import HumanMessage, AIMessage,AnyMessage
 from agent import run_agent
-from agent import get_agent
+from agent import getagent
+
+
 
 
 
@@ -29,7 +31,7 @@ class QueryRequest(BaseModel):
 
 @app.get("/")
 def read_root():
-    get_agent()
+    getagent()
     return {"status": "ok", "message": "Z-Bot AI Agent is running"}
 
 
