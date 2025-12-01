@@ -7,6 +7,8 @@ from langchain.messages import HumanMessage, AIMessage,AnyMessage
 from agent import run_agent
 from agent import getagent
 
+getagent()
+
 
 
 
@@ -31,7 +33,6 @@ class QueryRequest(BaseModel):
 
 @app.get("/")
 def read_root():
-    getagent()
     return {"status": "ok", "message": "Z-Bot AI Agent is running"}
 
 
