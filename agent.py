@@ -1,7 +1,6 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.messages import SystemMessage, AnyMessage
 from langchain.agents import create_agent
-from langchain.tools import tool
 from langgraph.checkpoint.memory import InMemorySaver
 from typing import List
 
@@ -12,16 +11,13 @@ of software engineering studying
 agent=None
 checkpointer = InMemorySaver()
 
-@tool
-def get_zeidans_information()->str:
-    """Use this tool to get information about Zeidan. This is your primary source of knowledge."""
-    return f"{zeidans_information}"
-
 # Create the prompt template for the agent
-SYSTEM_PROMPT = SystemMessage("""You are a personal assistant for a person named Zeidan. Your name is Z-Bot.
-Your only source of information about Zeidan is what you get from the `get_zeidans_information` tool.
-You must use this tool to answer any questions about Zeidan.
-Be friendly and helpful. When you start introduce yourself by saying hello and that you are my personal ai agent Z-Bot.
+SYSTEM_PROMPT = SystemMessage(f"""You are a personal assistant for a person named Zeidan. Your name is Z-Bot.
+
+Here is the information you know about Zeidan:
+{zeidans_information}
+
+Use this information to answer questions about Zeidan. Be friendly and helpful.
 """)
 
 checkpointer=InMemorySaver()
@@ -33,7 +29,7 @@ def getagent():
     agent = create_agent(
         model=model,
         system_prompt=SYSTEM_PROMPT,
-        tools=[get_zeidans_information],
+        tools=[],
         checkpointer=checkpointer)
     
 
