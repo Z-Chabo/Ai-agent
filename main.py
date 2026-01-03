@@ -51,8 +51,10 @@ async def query_agent(request: QueryRequest):
 
       return {"response":response}
    except Exception as e:
-      import traceback
-      return {"error": str(e), "traceback": traceback.format_exc()}
+      error_message = str(e)
+      if "429" in error_message or "quota" in error_message.lower():
+         return {"response": "Sorry, I've exceeded my quota for today. Please try again tomorrow or contact the administrator to upgrade the API plan."}
+      return {"error": error_message}
 
 if __name__ == "__main__":
     # This block is for local development only.
