@@ -37,18 +37,22 @@ def read_root():
 
 @app.post("/aiAgent")
 async def query_agent(request: QueryRequest):
-   history_msgs:List[AnyMessage]=[]
+   try:
+      history_msgs:List[AnyMessage]=[]
 
-   if request.history:
-      for msg in request.history:
-         if msg.type == 'ai':
-            history_msgs.append(AIMessage(content=msg.content))
-         else: # 'human' or None
-            history_msgs.append(HumanMessage(content=msg.content))
+      if request.history:
+         for msg in request.history:
+            if msg.type == 'ai':
+               history_msgs.append(AIMessage(content=msg.content))
+            else: # 'human' or None
+               history_msgs.append(HumanMessage(content=msg.content))
 
-   response=run_agent(request.query, history_msgs)
+      response=run_agent(request.query, history_msgs)
 
-   return {"response":response}
+      return {"response":response}
+   except Exception as e:
+      import traceback
+      return {"error": str(e), "traceback": traceback.format_exc()}
 
 if __name__ == "__main__":
     # This block is for local development only.
