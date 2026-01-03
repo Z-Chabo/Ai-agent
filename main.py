@@ -1,11 +1,10 @@
 from fastapi import FastAPI
-from fastapi.responses import StreamingResponse
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 from pydantic import BaseModel
 from langchain.messages import HumanMessage, AIMessage,AnyMessage
-from agent import run_agent, stream_introduction
+from agent import run_agent, get_introduction
 from agent import getagent
 
 getagent()
@@ -39,8 +38,8 @@ def read_root():
 
 @app.get("/introduce")
 def introduce():
-    """Streaming endpoint for the agent's introduction."""
-    return StreamingResponse(stream_introduction(), media_type="text/plain")
+    """Returns the agent's introduction."""
+    return {"response": get_introduction()}
 
 
 @app.post("/aiAgent")
