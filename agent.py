@@ -3,7 +3,7 @@ from langchain.messages import SystemMessage, AnyMessage
 from langchain.agents import create_agent
 from langchain.tools import tool
 from langgraph.checkpoint.memory import InMemorySaver
-from typing import List, AsyncGenerator
+from typing import List, Generator
 
 zeidans_information="""Zeidan is 24 years right he is going to be 25 in 2026 . He loves playing chess as a hobby. He is extremly friendly and loves to help people around him
 He is a canadian citizen of syrian heritage. He can speak English, Arabic,Aramaic and French. He is studying software engineering at concordia. He is going to enter his third year.
@@ -45,17 +45,17 @@ def run_agent(query: str, history: List[AnyMessage]):
     return response['messages'][-1].content
 
 
-async def stream_introduction() -> AsyncGenerator[str, None]:
+def stream_introduction() -> Generator[str, None, None]:
     """Streams the agent's introduction message."""
     config = {"configurable": {"thread_id": "intro_thread"}}
     intro_prompt = "Introduce yourself to the user."
     
-    async for chunk in agent.astream({"messages": [("user", intro_prompt)]}, config=config):
-        if "messages" in chunk:
-            for msg in chunk["messages"]:
-                if hasattr(msg, 'content') and msg.content:
-                    yield msg.content
-        elif "agent" in chunk and "messages" in chunk["agent"]:
+    for chunk in agent.stream(
+        {"messages": [{"role": "user", "content": intro_prompt}]},
+        config=config,
+        stream_mode="updates",
+    ):
+        if "agent" in chunk and "messages" in chunk["agent"]:
             for msg in chunk["agent"]["messages"]:
                 if hasattr(msg, 'content') and msg.content:
                     yield msg.content

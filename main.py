@@ -38,13 +38,9 @@ def read_root():
 
 
 @app.get("/introduce")
-async def introduce():
+def introduce():
     """Streaming endpoint for the agent's introduction."""
-    async def generate():
-        async for chunk in stream_introduction():
-            yield chunk
-    
-    return StreamingResponse(generate(), media_type="text/plain")
+    return StreamingResponse(stream_introduction(), media_type="text/plain")
 
 
 @app.post("/aiAgent")
