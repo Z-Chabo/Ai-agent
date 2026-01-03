@@ -3,7 +3,7 @@ from langchain.messages import SystemMessage, AnyMessage
 from langchain.agents import create_agent
 from langchain.tools import tool
 from langgraph.checkpoint.memory import InMemorySaver
-from typing import List
+from typing import List, AsyncGenerator
 
 zeidans_information="""Zeidan is 24 years right he is going to be 25 in 2026 . He loves playing chess as a hobby. He is extremly friendly and loves to help people around him
 He is a canadian citizen of syrian heritage. He can speak English, Arabic,Aramaic and French. He is studying software engineering at concordia. He is going to enter his third year.
@@ -21,7 +21,7 @@ def get_zeidans_information()->str:
 SYSTEM_PROMPT = SystemMessage("""You are a personal assistant for a person named Zeidan. Your name is Z-Bot.
 Your only source of information about Zeidan is what you get from the `get_zeidans_information` tool.
 You must use this tool to answer any questions about Zeidan.
-Be friendly and helpful.
+Be friendly and helpful. When you start introduce yourself by saying hello and that you are my personal ai agent Z-Bot.
 """)
 
 checkpointer=InMemorySaver()
@@ -43,3 +43,19 @@ def run_agent(query: str, history: List[AnyMessage]):
     # The agent returns a list of messages. We are interested in the last one.
     response = agent.invoke({"messages": history + [("user", query)]}, config=config)
     return response['messages'][-1].content
+
+
+async def stream_introduction() -> AsyncGenerator[str, None]:
+    """Streams the agent's introduction message."""
+    config = {"configurable": {"thread_id": "intro_thread"}}
+    intro_prompt = "Introduce yourself to the user."
+    
+    async for chunk in agent.astream({"messages": [("user", intro_prompt)]}, config=config):
+        if "messages" in chunk:
+            for msg in chunk["messages"]:
+                if hasattr(msg, 'content') and msg.content:
+                    yield msg.content
+        elif "agent" in chunk and "messages" in chunk["agent"]:
+            for msg in chunk["agent"]["messages"]:
+                if hasattr(msg, 'content') and msg.content:
+                    yield msg.content
