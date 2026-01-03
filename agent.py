@@ -25,7 +25,10 @@ checkpointer=InMemorySaver()
 
 def getagent():
     global agent
-    model = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite")
+    model = ChatGoogleGenerativeAI(
+        model="gemini-2.5-flash-lite",
+        max_retries=0  # Don't retry on errors
+    )
     agent = create_agent(
         model=model,
         system_prompt=SYSTEM_PROMPT,
