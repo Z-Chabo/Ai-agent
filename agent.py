@@ -43,11 +43,3 @@ def run_agent(query: str, history: List[AnyMessage]):
     # The agent returns a list of messages. We are interested in the last one.
     response = agent.invoke({"messages": history + [("user", query)]}, config=config)
     return response['messages'][-1].content
-
-
-def get_introduction() -> str:
-    """Returns the agent's introduction message."""
-    config = {"configurable": {"thread_id": "intro_thread"}}
-    intro_prompt = "Introduce yourself to the user."
-    response = agent.invoke({"messages": [{"role": "user", "content": intro_prompt}]}, config=config)
-    return response['messages'][-1].content

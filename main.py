@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional
 from pydantic import BaseModel
 from langchain.messages import HumanMessage, AIMessage,AnyMessage
-from agent import run_agent, get_introduction
+from agent import run_agent
 from agent import getagent
 
 getagent()
@@ -13,7 +13,7 @@ getagent()
 
 
 
-origins = ['https://portfolio1-b7j.pages.dev','https://portfolio1-b7j.pages.dev/']
+origins = ['https://portfolio1-b7j.pages.dev','https://portfolio1-b7j.pages.dev/',]
 
 app = FastAPI()
 
@@ -34,12 +34,6 @@ class QueryRequest(BaseModel):
 @app.get("/")
 def read_root():
     return {"status": "ok", "message": "Z-Bot AI Agent is running"}
-
-
-@app.get("/introduce")
-def introduce():
-    """Returns the agent's introduction."""
-    return {"response": get_introduction()}
 
 
 @app.post("/aiAgent")
